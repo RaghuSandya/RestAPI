@@ -2,7 +2,6 @@ package com.qa.tests;
 
 import java.io.IOException;
 import java.util.HashMap;
-
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -11,9 +10,9 @@ import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import com.qa.base.TestBase;
 import com.qa.client.RestClient;
+import com.qa.utils.TestUtil;
 
 public class GetAPITest extends TestBase {
 
@@ -50,10 +49,20 @@ public class GetAPITest extends TestBase {
 					Assert.assertEquals(Responce_Status_Code_200,Statuscode);
 
 					// to Get JSON String
-					String responce = EntityUtils.toString(closeblehttpResponce.getEntity(),"UTF-8");
+					String responce = EntityUtils.toString (closeblehttpResponce.getEntity(),"UTF-8");
 					JSONObject responcejson = new JSONObject(responce);
 					System.out.println("Json resonce is--->" + responcejson);
-
+					
+					//Total per page
+					String perpageValue=TestUtil.getValueByJPath(responcejson,"/per_page");
+					System.out.println("PerPage Value is--->"+perpageValue);
+					Assert.assertEquals(Integer.parseInt(perpageValue),3);
+					
+					//Total pages 
+					String total=TestUtil.getValueByJPath(responcejson,"/total");
+					System.out.println("total is--->"+total);
+					Assert.assertEquals(Integer.parseInt(total),12);
+					
 					// c.to GET Header
 					Header[] headerArray = closeblehttpResponce.getAllHeaders();
 					// HashMap for Get key and value
