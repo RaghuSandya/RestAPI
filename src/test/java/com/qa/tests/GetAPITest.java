@@ -26,7 +26,7 @@ public class GetAPITest extends TestBase {
 	@BeforeMethod
 	public void setup() {
 
-		test = new TestBase();
+		test = new TestBase();		
 		serviceurl = prop.getProperty("URL");
 		apiurl = prop.getProperty("service");
 
